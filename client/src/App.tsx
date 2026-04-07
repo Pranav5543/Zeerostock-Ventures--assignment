@@ -20,7 +20,7 @@ import {
 
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? '/api'
-  : 'https://zeerostock-ventures-assignment-ezj2.vercel.app';
+  : 'https://zeerostock-ventures-assignment-d6gi.onrender.com';
 
 type InventoryItem = {
   id: number;
