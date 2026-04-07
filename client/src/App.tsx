@@ -18,7 +18,9 @@ import {
   CheckCircle
 } from 'lucide-react';
 
-const API_BASE = '/api';
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? '/api'
+  : 'https://zeerostock-ventures-assignment-ezj2.vercel.app';
 
 type InventoryItem = {
   id: number;

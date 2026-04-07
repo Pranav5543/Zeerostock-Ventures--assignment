@@ -1,7 +1,8 @@
 import sqlite3 from 'sqlite3';
 import path from 'path';
 
-const dbPath = path.resolve(__dirname, './inventory.db');
+// Vercel serverless limits file system writes to /tmp/
+const dbPath = process.env.VERCEL ? '/tmp/inventory.db' : path.resolve(__dirname, './inventory.db');
 const db = new sqlite3.Database(dbPath);
 
 export const initDb = () => {
