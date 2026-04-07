@@ -1,9 +1,17 @@
-import sqlite3 from 'sqlite3';
 import path from 'path';
 
-// Vercel serverless limits file system writes to /tmp/
+// Defer require to avoid top-level lambda crash
+let sqlite3: any;
+let db: any;
 const dbPath = process.env.VERCEL ? '/tmp/inventory.db' : path.resolve(__dirname, './inventory.db');
-const db = new sqlite3.Database(dbPath);
+
+try {
+    sqlite3 = require('sqlite3').verbose();
+    db = new sqlite3.Database(dbPath);
+} catch (e: any) {
+    db = null;
+    console.error("Failed to load sqlite3:", e);
+}
 
 export const initDb = () => {
     return new Promise<void>((resolve, reject) => {

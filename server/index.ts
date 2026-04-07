@@ -11,9 +11,22 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+let dbBootError: any = null;
+
 // Initialize Database on startup
 initDb().then(() => {
     console.log('Database Ready.');
+}).catch(err => {
+    console.error('Database Init Error:', err);
+    dbBootError = err.message || String(err);
+});
+
+app.get('/', (req: Request, res: Response) => {
+    res.json({
+        status: 'Server is running',
+        dbError: dbBootError,
+        env: process.env.VERCEL ? 'Vercel' : 'Local'
+    });
 });
 
 /**
@@ -21,6 +34,8 @@ initDb().then(() => {
  * GET /search?q=...&category=...&minPrice=...&maxPrice=...
  */
 app.get('/search', (req: Request, res: Response) => {
+    if (dbBootError) return res.status(500).json({ error: 'DB Failed to boot: ' + dbBootError });
+    
     const { q, category, minPrice, maxPrice } = req.query;
 
     let sql = 'SELECT * FROM Inventory WHERE 1=1';
