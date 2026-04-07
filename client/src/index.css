@@ -227,6 +227,11 @@ body {
   background: rgba(255, 255, 255, 0.08);
 }
 
+.styled-select option {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
 /* Inventory Cards */
 .inventory-grid {
   display: grid;
